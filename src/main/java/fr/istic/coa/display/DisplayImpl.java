@@ -1,9 +1,12 @@
 package fr.istic.coa.display;
 
+import fr.istic.coa.generator.AsyncGenerator;
 import fr.istic.coa.generator.Generator;
 import fr.istic.coa.generator.Value;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
+
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -20,12 +23,15 @@ public class DisplayImpl implements Display {
     }
 
     @Override
-    public void update(Generator subject) {
-        Value value = subject.getValue();
-
-        Platform.runLater(() -> {
-            this.id.setText("id=" + value.id());
-            this.value.setText("value=" + value.value());
-        });
+    public void update(AsyncGenerator subject) {
+        try {
+            Value value = subject.asyncGetValue().get();
+            Platform.runLater(() -> {
+                this.id.setText("id=" + value.id());
+                this.value.setText("value=" + value.value());
+            });
+        } catch (InterruptedException | ExecutionException e) {
+            throw new RuntimeException("Something went wrong in getValue()", e);
+        }
     }
 }

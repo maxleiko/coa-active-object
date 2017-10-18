@@ -1,11 +1,9 @@
 package fr.istic.coa.strategy;
 
 import fr.istic.coa.generator.Generator;
-import fr.istic.coa.methodinvocation.Update;
-import fr.istic.coa.scheduler.Scheduler;
+import fr.istic.coa.observer.AsyncObserver;
 
-import java.util.concurrent.BlockingQueue;
-import java.util.concurrent.LinkedBlockingQueue;
+import java.util.concurrent.ExecutionException;
 
 /**
  *
@@ -15,7 +13,6 @@ import java.util.concurrent.LinkedBlockingQueue;
  */
 public class AtomicBroadcastImpl implements BroadcastAlgo {
 
-	private Scheduler scheduler = Scheduler.getInstance();
 	private Generator generator;
 
 	@Override
@@ -25,16 +22,12 @@ public class AtomicBroadcastImpl implements BroadcastAlgo {
 
 	@Override
 	public void execute() {
-		// queue update() for each observers
-		BlockingQueue<Update> queue = new LinkedBlockingQueue<>();
-		this.generator.getObservers()
-				.forEach((o) -> queue.add(new Update(o, this.generator)));
-
-		while (!queue.isEmpty()) {
+		// block for each update()
+		for (AsyncObserver<Generator> observer : this.generator.getAsyncObservers()) {
 			try {
-				this.scheduler.submit(queue.take()).get();
-			} catch (Exception ignore) {
-				break;
+				observer.update(this.generator).get();
+			} catch (InterruptedException | ExecutionException e) {
+				throw new RuntimeException("Something went wrong while calling update()", e);
 			}
 		}
 	}

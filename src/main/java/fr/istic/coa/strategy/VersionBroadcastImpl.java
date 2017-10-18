@@ -11,7 +11,6 @@ import fr.istic.coa.scheduler.Scheduler;
  */
 public class VersionBroadcastImpl implements BroadcastAlgo {
 
-	private Scheduler scheduler = Scheduler.getInstance();
 	private Generator generator;
 
 	@Override
@@ -22,7 +21,6 @@ public class VersionBroadcastImpl implements BroadcastAlgo {
 	@Override
 	public void execute() {
 		// TODO
-		this.generator.getObservers()
-				.forEach((o) -> this.scheduler.submit(new Update(o, this.generator)));
+		this.generator.getAsyncObservers().forEach(o -> o.update(this.generator));
 	}
 }

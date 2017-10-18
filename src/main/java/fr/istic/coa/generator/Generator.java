@@ -1,5 +1,6 @@
 package fr.istic.coa.generator;
 
+import fr.istic.coa.observer.AsyncSubject;
 import fr.istic.coa.observer.Subject;
 import fr.istic.coa.strategy.BroadcastAlgo;
 
@@ -8,7 +9,7 @@ import fr.istic.coa.strategy.BroadcastAlgo;
  *         Interface de capteur
  * 
  */
-public interface Generator extends Subject<Generator> {
+public interface Generator extends AsyncSubject<Generator> {
 
 	/**
 	 * Retourne la valeur courante du capteur

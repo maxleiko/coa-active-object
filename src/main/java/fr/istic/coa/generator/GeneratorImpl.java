@@ -1,5 +1,6 @@
 package fr.istic.coa.generator;
 
+import fr.istic.coa.observer.AsyncObserver;
 import fr.istic.coa.observer.Observer;
 import fr.istic.coa.strategy.BroadcastAlgo;
 
@@ -9,17 +10,17 @@ import java.util.Random;
 
 public class GeneratorImpl implements Generator {
 
-	private int count = 0;
 	private Random random = new Random();
 	private Value value = new Value();
 	private BroadcastAlgo broadcast;
-	private List<Observer<Generator>> observers = new ArrayList<>();
+	private List<AsyncObserver<Generator>> observers = new ArrayList<>();
 
 	public void generate() {
 		// create a new random value
-		this.value.setValue(this.random.nextInt(100));
-		this.count++;
-		this.notifyObservers();
+		final int value = this.random.nextInt(100);
+		System.out.println("New value: " + value);
+		this.value.setValue(value);
+		this.notifyAsyncObservers();
 	}
 
 	@Override
@@ -39,21 +40,17 @@ public class GeneratorImpl implements Generator {
 	}
 
 	@Override
-	public void attach(Observer<Generator> o) {
+	public void attach(AsyncObserver<Generator> o) {
 		this.observers.add(o);
 	}
 
 	@Override
-	public void detach(Observer<Generator> o) {
+	public void detach(AsyncObserver<Generator> o) {
 		this.observers.remove(o);
 	}
 
 	@Override
-	public void notifyObservers() {
-		this.asyncNotifyObservers();
-	}
-
-	private void asyncNotifyObservers() {
+	public void notifyAsyncObservers() {
 		try {
 			this.broadcast.configure(this);
 			this.broadcast.execute();
@@ -63,7 +60,7 @@ public class GeneratorImpl implements Generator {
 	}
 
 	@Override
-	public List<Observer<Generator>> getObservers() {
+	public List<AsyncObserver<Generator>> getAsyncObservers() {
 		return this.observers;
 	}
 }

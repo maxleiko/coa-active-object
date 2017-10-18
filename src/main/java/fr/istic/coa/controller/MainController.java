@@ -45,10 +45,10 @@ public class MainController {
     public void initialize() {
         this.generator.setBroadcast(this.atomicBroadcast);
 
-        Channel channel0 = new ChannelImpl(this.generator, 0);
-        Channel channel1 = new ChannelImpl(this.generator, 50);
-        Channel channel2 = new ChannelImpl(this.generator, 500);
-        Channel channel3 = new ChannelImpl(this.generator, 1000);
+        Channel channel0 = new ChannelImpl("channel0", this.generator, 0);
+        Channel channel1 = new ChannelImpl("channel1", this.generator, 50);
+        Channel channel2 = new ChannelImpl("channel2", this.generator, 500);
+        Channel channel3 = new ChannelImpl("channel3", this.generator, 1000);
 
         Display display0 = new DisplayImpl(this.displayId0, this.displayValue0);
         Display display1 = new DisplayImpl(this.displayId1, this.displayValue1);
@@ -72,7 +72,7 @@ public class MainController {
     @FXML
     private void onStart() {
         this.scheduler.start();
-        this.scheduler.schedulePeriodically(this.generator::generate, 0, 50);
+        this.scheduler.schedulePeriodically(this.generator::generate, 0, 1000);
         System.out.println("START");
         this.startBtn.setDisable(true);
         this.stopBtn.setDisable(false);

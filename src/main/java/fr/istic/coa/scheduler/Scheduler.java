@@ -34,19 +34,11 @@ public class Scheduler {
         }
     }
 
-    public <V> Future<V> submit(Callable<V> callable) {
-        return this.dispatcher.submit(callable);
-    }
-
     public <V> Future<V> schedule(Callable<V> callable, long delay) {
         return this.dispatcher.schedule(callable, delay, TimeUnit.MILLISECONDS);
     }
 
     public void schedulePeriodically(Runnable task, long delay, long period) {
         this.dispatcher.scheduleAtFixedRate(task, delay, period, TimeUnit.MILLISECONDS);
-    }
-
-    public <V> void invokeAll(List<Callable<V>> tasks) throws InterruptedException {
-        this.dispatcher.invokeAll(tasks);
     }
 }

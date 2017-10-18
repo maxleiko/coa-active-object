@@ -1,7 +1,9 @@
 package fr.istic.coa.channel;
 
+import fr.istic.coa.generator.AsyncGenerator;
 import fr.istic.coa.generator.Generator;
-import fr.istic.coa.observer.Observer;
+import fr.istic.coa.observer.AsyncObserver;
+import fr.istic.coa.observer.Subject;
 
 
 /**
@@ -9,5 +11,6 @@ import fr.istic.coa.observer.Observer;
  * Interface de canal de diffusion
  *
  */
-public interface Channel extends Generator, Observer<Generator> {
+public interface Channel extends AsyncGenerator, Generator, AsyncObserver<Generator>, Subject<AsyncGenerator> {
+
 }
