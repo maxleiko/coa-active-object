@@ -1,7 +1,6 @@
 package fr.istic.coa.generator;
 
 import fr.istic.coa.observer.AsyncObserver;
-import fr.istic.coa.observer.Observer;
 import fr.istic.coa.strategy.BroadcastAlgo;
 
 import java.util.ArrayList;
@@ -51,12 +50,8 @@ public class GeneratorImpl implements Generator {
 
 	@Override
 	public void notifyAsyncObservers() {
-		try {
-			this.broadcast.configure(this);
-			this.broadcast.execute();
-		} catch (InterruptedException e) {
-			throw new RuntimeException("Something went wrong while calling update() on observers", e);
-		}
+		this.broadcast.configure(this);
+		this.broadcast.execute();
 	}
 
 	@Override

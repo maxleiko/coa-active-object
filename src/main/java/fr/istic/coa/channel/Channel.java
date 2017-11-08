@@ -11,6 +11,6 @@ import fr.istic.coa.observer.Subject;
  * Interface de canal de diffusion
  *
  */
-public interface Channel extends AsyncGenerator, Generator, AsyncObserver<Generator>, Subject<AsyncGenerator> {
+public interface Channel extends AsyncGenerator, AsyncObserver<Generator>, Subject<AsyncGenerator> {
 
 }

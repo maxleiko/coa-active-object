@@ -5,14 +5,11 @@ import fr.istic.coa.generator.Generator;
 import fr.istic.coa.generator.Value;
 import fr.istic.coa.methodinvocation.GetValue;
 import fr.istic.coa.methodinvocation.Update;
-import fr.istic.coa.observer.AsyncObserver;
 import fr.istic.coa.observer.Observer;
 import fr.istic.coa.scheduler.Scheduler;
-import fr.istic.coa.strategy.BroadcastAlgo;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 /**
@@ -35,21 +32,6 @@ public class ChannelImpl implements Channel {
 	}
 
 	@Override
-	public Value getValue() {
-		return this.generator.getValue();
-	}
-
-	@Override
-	public void setBroadcast(BroadcastAlgo broadcast) {
-		this.generator.setBroadcast(broadcast);
-	}
-
-	@Override
-	public BroadcastAlgo getBroadcast() {
-		return this.generator.getBroadcast();
-	}
-
-	@Override
 	public void attach(Observer<AsyncGenerator> o) {
 		this.observer = o;
 	}
@@ -60,7 +42,9 @@ public class ChannelImpl implements Channel {
 	}
 
 	@Override
-	public void notifyObservers() {}
+	public void notifyObservers() {
+		this.observer.update(this);
+	}
 
 	@Override
 	public List<Observer<AsyncGenerator>> getObservers() {
@@ -73,34 +57,13 @@ public class ChannelImpl implements Channel {
 	 */
 	@Override
 	public Future<Void> update(Generator subject) {
-		System.out.println("Register call to Update() for '"+this.name+"' in " + this.latency + "ms");
-		return this.scheduler.schedule(new Update(this.observer, this), this.latency);
+		System.out.println(" "+this.name+" scheduled update() in " + this.latency + "ms");
+		return this.scheduler.schedule(new Update(this), this.latency);
 	}
 
 	@Override
-	public Future<Value> asyncGetValue() {
-		System.out.println("Register call to GetValue() for '"+this.name+"' in " + this.latency + "ms");
+	public Future<Value> getValue() {
+		System.out.println(" "+this.name+" scheduled getValue() in " + this.latency + "ms");
 		return this.scheduler.schedule(new GetValue(this.generator), this.latency);
-	}
-
-
-	@Override
-	public void attach(AsyncObserver<Generator> o) {
-		this.generator.attach(o);
-	}
-
-	@Override
-	public void detach(AsyncObserver<Generator> o) {
-		this.generator.detach(o);
-	}
-
-	@Override
-	public void notifyAsyncObservers() {
-		this.generator.notifyAsyncObservers();
-	}
-
-	@Override
-	public List<AsyncObserver<Generator>> getAsyncObservers() {
-		return this.generator.getAsyncObservers();
 	}
 }

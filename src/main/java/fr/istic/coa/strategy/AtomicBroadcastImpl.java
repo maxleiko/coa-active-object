@@ -8,8 +8,7 @@ import java.util.concurrent.ExecutionException;
 /**
  *
  *         Diffusion atomique: Tous les observateurs recoivent la même valeur
- * 		   => Pas d'execution d'execute() tant que toutes les value() n'ont pas été effectués
- * 		   => On ne perd pas de valeurs
+ * 		   => on bloque pour chaque update()
  */
 public class AtomicBroadcastImpl implements BroadcastAlgo {
 

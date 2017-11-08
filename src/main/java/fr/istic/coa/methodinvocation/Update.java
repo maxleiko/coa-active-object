@@ -1,23 +1,19 @@
 package fr.istic.coa.methodinvocation;
 
-import fr.istic.coa.generator.AsyncGenerator;
-import fr.istic.coa.observer.Observer;
+import fr.istic.coa.observer.Subject;
 
 import java.util.concurrent.Callable;
 
 public class Update implements Callable<Void> {
 	
-	private Observer<AsyncGenerator> observer;
-	private AsyncGenerator subject;
+	private Subject subject;
 
-
-	public Update(Observer<AsyncGenerator> observer, AsyncGenerator subject) {
-		this.observer = observer;
+	public Update(Subject subject) {
 		this.subject = subject;
 	}
 	
 	public Void call() throws Exception {
-		observer.update(this.subject);
+		this.subject.notifyObservers();
 		return null;
 	}
 }

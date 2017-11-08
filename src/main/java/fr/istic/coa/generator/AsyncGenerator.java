@@ -8,5 +8,5 @@ import java.util.concurrent.Future;
  */
 public interface AsyncGenerator {
 
-    Future<Value> asyncGetValue();
+    Future<Value> getValue();
 }

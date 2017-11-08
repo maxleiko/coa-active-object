@@ -19,5 +19,5 @@ public interface BroadcastAlgo {
 	/**
 	 * Déclenche la diffusion
 	 */
-	void execute() throws InterruptedException;
+	void execute();
 }

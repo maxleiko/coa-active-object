@@ -18,7 +18,7 @@ public class SequentialBroadcastImpl implements BroadcastAlgo {
 	}
 
 	@Override
-	public void execute() throws InterruptedException {
+	public void execute() {
 		this.generator.getAsyncObservers().forEach(o -> o.update(this.generator));
 	}
 }

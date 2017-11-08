@@ -1,5 +1,6 @@
 package fr.istic.coa.scheduler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.concurrent.*;
 
@@ -29,7 +30,7 @@ public class Scheduler {
 
     public void stop() {
         if (this.dispatcher != null) {
-            this.dispatcher.shutdownNow();
+            this.dispatcher.shutdown();
             this.dispatcher = null;
         }
     }
