@@ -1,10 +1,14 @@
 package fr.istic.coa;
 
+import fr.istic.coa.scheduler.Scheduler;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.event.EventHandler;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class App extends Application {
 
@@ -13,6 +17,12 @@ public class App extends Application {
 		Parent root = FXMLLoader.load(getClass().getResource("/layout.fxml"));
 
 		Scene scene = new Scene(root, 600, 400);
+
+		stage.setOnCloseRequest(e -> {
+            Scheduler.getInstance().stop();
+            Platform.exit();
+            System.exit(0);
+        });
 
 		stage.setTitle("TP AOC - ActiveObject");
 		stage.setScene(scene);
