@@ -1,9 +1,10 @@
 package fr.istic.coa.strategy;
 
 import fr.istic.coa.generator.Generator;
-import fr.istic.coa.observer.AsyncObserver;
+import fr.istic.coa.observer.CompletableObserverImpl;
 
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.CompletableFuture;
+import java.util.stream.Collectors;
 
 /**
  *
@@ -22,12 +23,13 @@ public class AtomicBroadcastImpl implements BroadcastAlgo {
 	@Override
 	public void execute() {
 		// block for each update()
-		for (AsyncObserver<Generator> observer : this.generator.getAsyncObservers()) {
-			try {
-				observer.update(this.generator).get();
-			} catch (InterruptedException | ExecutionException e) {
-				throw new RuntimeException("Something went wrong while calling update()", e);
-			}
-		}
+		CompletableFuture.allOf(
+				this.generator.getObservers()
+						.stream()
+						.map(CompletableObserverImpl::new)
+						.map((o) -> o.update(this.generator))
+						.collect(Collectors.toList())
+						.toArray(new CompletableFuture[this.generator.getObservers().size()])
+		);
 	}
 }

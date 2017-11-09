@@ -1,8 +1,6 @@
 package fr.istic.coa.strategy;
 
 import fr.istic.coa.generator.Generator;
-import fr.istic.coa.methodinvocation.Update;
-import fr.istic.coa.scheduler.Scheduler;
 
 /**
  *
@@ -21,6 +19,6 @@ public class VersionBroadcastImpl implements BroadcastAlgo {
 	@Override
 	public void execute() {
 		// TODO
-		this.generator.getAsyncObservers().forEach(o -> o.update(this.generator));
+		this.generator.getObservers().forEach(o -> o.update(this.generator));
 	}
 }

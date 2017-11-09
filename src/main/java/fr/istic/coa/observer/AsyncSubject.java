@@ -25,10 +25,10 @@ public interface AsyncSubject<T> {
 	/**
 	 * Envoie une notification aux observers
 	 */
-	void notifyAsyncObservers();
+	void notifyObservers();
 
 	/**
 	 * @return la liste des observeurs enregistrés
 	 */
-	List<AsyncObserver<T>> getAsyncObservers();
+	List<AsyncObserver<T>> getObservers();
 }

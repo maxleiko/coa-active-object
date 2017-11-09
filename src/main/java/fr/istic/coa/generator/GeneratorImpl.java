@@ -19,7 +19,7 @@ public class GeneratorImpl implements Generator {
 		final int value = this.random.nextInt(100);
 		System.out.println("New value: " + value);
 		this.value.setValue(value);
-		this.notifyAsyncObservers();
+		this.notifyObservers();
 	}
 
 	@Override
@@ -49,13 +49,13 @@ public class GeneratorImpl implements Generator {
 	}
 
 	@Override
-	public void notifyAsyncObservers() {
+	public void notifyObservers() {
 		this.broadcast.configure(this);
 		this.broadcast.execute();
 	}
 
 	@Override
-	public List<AsyncObserver<Generator>> getAsyncObservers() {
+	public List<AsyncObserver<Generator>> getObservers() {
 		return this.observers;
 	}
 }
