@@ -39,6 +39,10 @@ public class Scheduler {
         return this.dispatcher.schedule(callable, delay, TimeUnit.MILLISECONDS);
     }
 
+    public Future<?> submit(Runnable runnable) {
+        return this.dispatcher.submit(runnable);
+    }
+
     public void schedulePeriodically(Runnable task, long delay, long period) {
         this.dispatcher.scheduleAtFixedRate(task, delay, period, TimeUnit.MILLISECONDS);
     }

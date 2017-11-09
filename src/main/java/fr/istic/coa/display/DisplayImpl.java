@@ -1,6 +1,8 @@
 package fr.istic.coa.display;
 
 import fr.istic.coa.generator.AsyncGenerator;
+import fr.istic.coa.generator.CompletableGenerator;
+import fr.istic.coa.generator.CompletableGeneratorImpl;
 import fr.istic.coa.generator.Value;
 import javafx.application.Platform;
 import javafx.scene.control.Label;
@@ -25,16 +27,11 @@ public class DisplayImpl implements Display {
 
     @Override
     public void update(AsyncGenerator subject) {
-
-        try {
-            Value value = subject.getValue().get();
-            Platform.runLater(() -> {
-                this.id.setText("id=" + value.id());
-                this.value.setText("value=" + value.value());
-                System.out.println("   " + name + "> id=" + value.id() + ", value=" + value.value());
-            });
-        } catch (InterruptedException | ExecutionException e) {
-            throw new RuntimeException("Something went wrong in getValue()", e);
-        }
+        CompletableGeneratorImpl adapter = new CompletableGeneratorImpl(subject);
+        adapter.getValue().thenAcceptAsync((val) -> Platform.runLater(() -> {
+            this.id.setText("id=" + val.id());
+            this.value.setText("value=" + val.value());
+            System.out.println("   " + name + "> id=" + val.id() + ", value=" + val.value());
+        }));
     }
 }
