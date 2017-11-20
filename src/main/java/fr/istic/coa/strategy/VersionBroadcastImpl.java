@@ -1,8 +1,6 @@
 package fr.istic.coa.strategy;
 
 import fr.istic.coa.generator.Generator;
-import fr.istic.coa.methodinvocation.Update;
-import fr.istic.coa.scheduler.Scheduler;
 
 /**
  *

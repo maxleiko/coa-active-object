@@ -1,7 +1,6 @@
 package fr.istic.coa.generator;
 
 import fr.istic.coa.observer.AsyncSubject;
-import fr.istic.coa.observer.Subject;
 import fr.istic.coa.strategy.BroadcastAlgo;
 
 /**

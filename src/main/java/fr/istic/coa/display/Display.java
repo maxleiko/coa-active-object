@@ -1,7 +1,6 @@
 package fr.istic.coa.display;
 
 import fr.istic.coa.generator.AsyncGenerator;
-import fr.istic.coa.generator.Generator;
 import fr.istic.coa.observer.Observer;
 
 /**
